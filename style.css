@@ -6,3 +6,22 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20rem;
+}
+
+.location p {
+    font-size: 1rem;
+}
+
+
+
+
+.voice img:hover {
+    cursor: pointer;
+}
