@@ -23,13 +23,11 @@ function getCurrentLocation() {
             },
             (error) => {
                 console.error("Lỗi xác định toạ độ:", error.message);
-                document.querySelector('#city').textContent = "Không thể lấy toạ độ hiện tại";
             },
             { timeout: 10000 }
         );
     } else {
         console.log("Geolocation is not supported by this browser.");
-        document.querySelector('#city').textContent = "Trình duyệt không hỗ trợ định vị";
     }
 }
 async function fetchCurrentCity(latitude, longitude) {
@@ -39,11 +37,10 @@ async function fetchCurrentCity(latitude, longitude) {
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         const data = await response.json();
-        const city = data.city || data.locality || data.principalSubdivision || "Không rõ thành phố";
+        const city = data.city || data.locality || data.principalSubdivision || "Bạn đang ở nơi đồng không mông quạnh";
         document.querySelector('#city').textContent = city;
     } catch (error) {
         console.error("Error fetching current city:", error);
-        document.querySelector('#city').textContent = "Lỗi khi lấy thông tin thành phố";
     }
 }
 
@@ -63,7 +60,7 @@ async function fetchWeatherData(latitude, longitude) {
         document.querySelector('.weather').textContent = formattedDescription;
     } catch (error) {
         console.error("Error fetching weather data:", error);
-        document.querySelector('.weather').textContent = "Không thể lấy thông tin thời tiết";
+        document.querySelector('.weather').textContent = "Hôm nay trời sao ai biết";
     }
 }
 
@@ -84,19 +81,19 @@ async function renderBackground(isRaining) {
 }
 
 function speak() {
+    const time = new Date();
     const dateText = document.querySelector('.date').textContent || '';
     const locationText = document.querySelector('#city').textContent || '';
     const weatherText = document.querySelector('.weather').textContent || '';
-    const timeText = document.querySelector('.time').textContent || '';
-    const time = new Date();
     const hoursText = time.getHours();
     const minutesText = time.getMinutes();
-    if (!dateText && !locationText && !weatherText && !timeText ) {
+    if (!dateText && !locationText && !weatherText && !hoursText && !minutesText ) {
         console.warn("Không tìm thấy thông tin");
         return;
     } 
 
-    const fullText = `Hôm nay là ${dateText}, bây giờ là ${hoursText} giờ ${minutesText} phút. Bạn đang ở ${locationText} và thời tiết hiện tại: ${weatherText}`;
+    const fullText = `Hôm nay là ${dateText}, bây giờ là ${hoursText} giờ ${minutesText} phút. 
+    Bạn đang ở ${locationText} và thời tiết hiện tại: ${weatherText}`;
     const synth = window.speechSynthesis;
     synth.cancel();
     const utterance = new SpeechSynthesisUtterance(fullText);
