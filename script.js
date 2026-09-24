@@ -30,6 +30,7 @@ function getCurrentLocation() {
         console.log("Geolocation is not supported by this browser.");
     }
 }
+
 async function fetchCurrentCity(latitude, longitude) {
     const apiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=vi`;
     try {
@@ -64,7 +65,7 @@ async function fetchWeatherData(latitude, longitude) {
     }
 }
 
-async function renderBackground(isRaining) {
+function renderBackground(isRaining) {
     const background = document.querySelector('.container');
     const information = document.querySelectorAll('p');
     if (isRaining) {
